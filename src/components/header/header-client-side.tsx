@@ -32,6 +32,8 @@ export default function HeaderClientSide(): JSX.Element {
   const navLinks = [
     { href: "/", label: "home" },
     { href: "/profile", label: "profile" },
+    { href: "/revenues", label: "შემოსავლები" },
+    { href: "/customers", label: "კლიენტები" },
   ];
 
   return (

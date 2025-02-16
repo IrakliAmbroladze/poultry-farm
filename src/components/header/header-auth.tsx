@@ -15,14 +15,13 @@ export default async function AuthButton() {
     <div
       className={`${lusitana.className} flex dark:text-white text-black items-center gap-4`}
     >
-      <Link href={"/profile"} className="hidden sm:w-auto sm:inline">
+      <Link href={"/profile"} className="text-xs sm:text-base">
         {user?.user_metadata?.user_name || user.email}
       </Link>
 
-      <form action={signOut}>
+      <form action={signOut} className="flex items-center">
         <button type="submit">
-          <PowerIcon className="w-4 md:hidden" />
-          <span className="hidden md:block">sign out</span>
+          <PowerIcon className="w-4" />
         </button>
       </form>
     </div>
