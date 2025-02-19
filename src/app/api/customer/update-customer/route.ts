@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
       .eq("id", id);
 
     if (error) {
-      throw error; // Throw error if the insert fails
+      throw error;
     }
 
     return NextResponse.json({ message: "Customer added successfully" });

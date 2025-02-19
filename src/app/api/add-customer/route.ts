@@ -1,4 +1,3 @@
-// app/api/add-customer/route.ts
 import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -34,13 +33,13 @@ export async function POST(req: NextRequest) {
     const { error } = await supabase.from("customers").insert([
       {
         name,
-        email: "ambroladzeirakli@gmail.com", // Hardcoded email, consider dynamic or parameterized approach
+        email: "ambroladzeirakli@gmail.com",
         user_id: user.id,
       },
     ]);
 
     if (error) {
-      throw error; // Throw error if the insert fails
+      throw error;
     }
 
     return NextResponse.json({ message: "Customer added successfully" });
