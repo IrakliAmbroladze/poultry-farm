@@ -4,8 +4,10 @@ import { Customer } from "@/types/customer";
 import { useEffect, useState } from "react";
 
 const Revenues = () => {
+  const [isCustomerFormOpen, setIsCustomerFormOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editedName, setEditedName] = useState("");
+  const [addName, setAddName] = useState("");
   const thClassName =
     "border border-gray-400 sm:px-4 py-2 bg-gray-200 text-xs sm:text-base";
   const btnClassName = (color: string) => {
@@ -80,8 +82,57 @@ const Revenues = () => {
     setEditedName("");
   };
 
+  const handleAddClick = () => {
+    console.log(addName);
+    setAddName("");
+    setIsCustomerFormOpen(!isCustomerFormOpen);
+  };
+  const handleAddCustomerClick = () => {
+    setIsCustomerFormOpen(!isCustomerFormOpen);
+  };
+  const handleCloseClick = () => {
+    setIsCustomerFormOpen(!isCustomerFormOpen);
+  };
+
   return (
     <div className="mt-20 mx-5">
+      {isCustomerFormOpen && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-90 flex justify-center items-center z-50">
+          <div className="bg-[#f0eff4] p-6 rounded-lg shadow-lg text-center">
+            <p className="text-lg text-green-700 font-semibold">
+              დაამატე მომხმარებელი
+            </p>
+            <p className="m-2">
+              <input
+                type="text"
+                className="border border-gray-600 rounded-md"
+                value={addName}
+                onChange={(e) => setAddName(e.target.value)}
+              />
+            </p>
+            <div className="flex gap-1 justify-center">
+              <button
+                className={`${btnClassName("green")} mb-2`}
+                onClick={() => handleAddClick()}
+              >
+                add
+              </button>
+              <button
+                className={`${btnClassName("gray")} mb-2`}
+                onClick={() => handleCloseClick()}
+              >
+                cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      <button
+        className={`${btnClassName("green")} mb-2`}
+        onClick={() => handleAddCustomerClick()}
+      >
+        add customer
+      </button>
       <table className="border-collapse border border-gray-300 w-full">
         <thead>
           <tr>
@@ -110,7 +161,7 @@ const Revenues = () => {
                   })}
                 </span>
               </td>
-              <td className="sm:px-4 py-2 text-left text-gray-900 text-xs sm:text-base">
+              <td className="sm:px-4 py-2 text-left text-gray-900 text-xs sm:text-base bg-red">
                 {editingId === customer.id ? (
                   <input
                     type="text"
