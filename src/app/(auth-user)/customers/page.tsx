@@ -3,7 +3,7 @@
 import { Customer } from "@/types/customer";
 import { useEffect, useState } from "react";
 
-const Revenues = () => {
+const Customers = () => {
   const [isCustomerFormOpen, setIsCustomerFormOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editedName, setEditedName] = useState("");
@@ -54,6 +54,10 @@ const Revenues = () => {
   };
 
   const handleSaveClick = async (id: number) => {
+    if (editedName === "") {
+      alert("ცარიელ სახელს ვერ შეინახავ!");
+      return;
+    }
     try {
       const response = await fetch("/api/customer/update-customer", {
         method: "POST",
@@ -82,9 +86,34 @@ const Revenues = () => {
     setEditedName("");
   };
 
-  const handleAddClick = () => {
-    console.log(addName);
-    setAddName("");
+  const handleAddClick = async () => {
+    try {
+      const response = await fetch("/api/customer/add-customer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: addName }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add customer");
+      }
+
+      setData((prevData) => [
+        ...prevData,
+        {
+          id: prevData[prevData.length - 1].id + 1,
+          created_at: new Date().toLocaleDateString("ka-GE"),
+          name: addName,
+          description: "",
+          email: "",
+          user_id: "",
+        },
+      ]);
+    } catch (error) {
+      console.error("Error adding customer:", error);
+    }
     setIsCustomerFormOpen(!isCustomerFormOpen);
   };
   const handleAddCustomerClick = () => {
@@ -153,7 +182,7 @@ const Revenues = () => {
                 <span className="hidden sm:inline">
                   {new Date(customer.created_at).toLocaleDateString("en-GB")}
                 </span>
-                <span className="sm:hidden text-xs">
+                <span className="sm:hidden text-sm">
                   {new Date(customer.created_at).toLocaleDateString("en-GB", {
                     day: "2-digit",
                     month: "2-digit",
@@ -161,7 +190,7 @@ const Revenues = () => {
                   })}
                 </span>
               </td>
-              <td className="sm:px-4 py-2 text-left text-gray-900 text-xs sm:text-base bg-red">
+              <td className="sm:px-4 py-2 text-left text-gray-900 text-sm sm:text-base bg-red">
                 {editingId === customer.id ? (
                   <input
                     type="text"
@@ -206,4 +235,4 @@ const Revenues = () => {
   );
 };
 
-export default Revenues;
+export default Customers;

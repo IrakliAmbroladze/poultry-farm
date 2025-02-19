@@ -22,7 +22,6 @@ export async function POST(req: NextRequest) {
 
     const user = userData.user;
 
-    // Handle user retrieval error
     if (userError || !user) {
       return NextResponse.json(
         { error: "User not authenticated" },
@@ -30,7 +29,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { error } = await supabase.from("customers").insert([
+    const { data, error } = await supabase.from("customers").insert([
       {
         name,
         email: "ambroladzeirakli@gmail.com",
@@ -42,7 +41,7 @@ export async function POST(req: NextRequest) {
       throw error;
     }
 
-    return NextResponse.json({ message: "Customer added successfully" });
+    return NextResponse.json({ message: "Customer added successfully", data });
   } catch (error) {
     console.error("Error adding customer:", error);
     return NextResponse.json(
