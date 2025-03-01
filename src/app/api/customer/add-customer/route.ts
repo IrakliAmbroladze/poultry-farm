@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     const { data, error } = await supabase.from("customers").insert([
       {
         name,
-        email: "ambroladzeirakli@gmail.com",
+        email: user.email,
         user_id: user.id,
       },
     ]);
